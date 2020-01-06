@@ -5,8 +5,25 @@ Highcharts.setOptions({
     thousandsSep: ','
   }
 });
-document.addEventListener('DOMContentLoaded', function () {
-  var myChart = Highcharts.chart('chart-container', {
+var chartId = document.getElementById("chart-container"); // checks for the chart ID and displays a backup image if the browser can't find it
+
+setTimeout(function () {
+  if (chartId.innerHTML === "") {
+    // console.log('noId');
+    var chartArea = document.getElementsByClassName("chart-area");
+
+    for (var i = 0; i < chartArea.length; i++) {
+      chartArea[i].style.display = "none";
+    } // insert chart screenshot here
+
+
+    document.getElementById("chart-fallback").innerHTML += '<img src="https://fm-static.cnbc.com/awsmedia/chart/2019/10/08/chart-error_wide.1570569331252.png" style="width: 100%;max-width:660px">';
+  } else {// console.log('yesId')
+  }
+}, 500);
+
+function drawHighcharts() {
+  Highcharts.chart(chartId, {
     chart: {
       type: 'column',
       styledMode: true,
@@ -124,4 +141,10 @@ document.addEventListener('DOMContentLoaded', function () {
       }]
     }
   });
-});
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  drawHighcharts();
+} else {
+  document.addEventListener("DOMContentLoaded", drawHighcharts);
+}
